@@ -34,6 +34,27 @@ app.post("/api", async (req, res) => {
   }
 });
 
+// get single todo
+app.get("/api/:id", async (req, res) => {
+    try {
+        const {id}=req.params
+        const findItem = await pool.query("SELECT * FROM item_list WHERE item_id = $1", [id]);
+        res.json(findItem.rows[0]);
+    } catch (error) {   
+        res.json({ error: error.message });
+        res.status(404).json("Item not found");
+    }
+})
+
+// delete items
+// app.delete("/api/:id", async (req, res) => {
+//     try {
+//         const 
+//     } catch (error) {
+//         console.log(error);
+//     }
+// })
+
 app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
