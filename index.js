@@ -47,13 +47,15 @@ app.get("/api/:id", async (req, res) => {
 })
 
 // delete items
-// app.delete("/api/:id", async (req, res) => {
-//     try {
-//         const 
-//     } catch (error) {
-//         console.log(error);
-//     }
-// })
+app.delete("/api/:id", async (req, res) => {
+    try {
+        const {id} = req.params
+        const deleteItems = await pool.query("DELETE FROM item_list WHERE item_id = $1", [id]);
+        res.json("Item deleted successfully");
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 app.listen(port, () => {
   console.log(`server running on port ${port}`);
