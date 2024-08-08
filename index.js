@@ -8,9 +8,9 @@ app.use(cors());
 app.use(express.json());
 
 // get all items
-app.get("/api", (req, res) => {
+app.get("/api", async (req, res) => {
   try {
-    const allItems = pool.query("SELECT * FROM item_list");
+    const allItems = await pool.query("SELECT * FROM item_list");
     res.json(allItems.rows);
   } catch (error) {
     console.log(error);
@@ -23,7 +23,7 @@ app.get("/api", (req, res) => {
 app.post("/api", async (req, res) => {
   try {
     const { item_name, item_description, item_price, item_quantity } = req.body;
-    const newItem = pool.query(
+    const newItem = await pool.query(
       "INSERT INTO item_list(item_name,item_description,item_price,item_quantity) VALUES($1,$2,$3,$4) RETURNING *",
       [item_name, item_description, item_price, item_quantity]
     );
